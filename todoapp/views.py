@@ -11,6 +11,10 @@ def index(request):
 class CreateNoteView(generics.ListCreateAPIView):
     queryset = CreateNote.objects.all()
     serializer_class = CreateNoteSerializer
+
+class EditNoteView(generics.ListAPIView):
+    queryset = CreateNote.objects.all()
+    serializer_class = CreateNoteSerializer
     
 class ModifyNoteView(generics.RetrieveUpdateDestroyAPIView):
     queryset = CreateNote.objects.all()

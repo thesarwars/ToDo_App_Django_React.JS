@@ -23,10 +23,12 @@ function Home(){
         description: '',
     });
 
-    const [ModifyData, setModifyData] = useState({
-        title: '',
-        description: '',
-    })
+    // const [ModifyModal, setModifyModal] = useState(false)
+
+    // const [ModifyData, setModifyData] = useState({
+    //     title: '',
+    //     description: '',
+    // })
 
     const handleInputChange = (event) =>{
         setCreateData({
@@ -59,30 +61,6 @@ function Home(){
         }
     }
 
-    const handleModify = (todoId) =>{
-        const _modifyData = new FormData();
-        _modifyData.append('title', CreateData.title);
-        _modifyData.append('description', CreateData.description);
-
-        try{
-            axios.put('http://127.0.0.1:8000/apiview/modify/'+todoId, _modifyData,{
-                headers: {
-                    'content-type': 'multipart/form-data'
-                }
-            })
-            .then((response)=>{
-                if(response.status===200||response.status===201){
-                    console.log('Data Save Successfully')
-                    setCreateModal(false)
-                    // fetchData();
-
-                }
-            })
-        }catch(error){
-            console.log(error)
-        }
-    }
-
     
     useEffect(()=>{
         axios.get('http://127.0.0.1:8000/apiview/')
@@ -95,6 +73,7 @@ function Home(){
             console.log(error);
         })
     },[])
+
 
 
     return(
@@ -141,8 +120,32 @@ function Home(){
                             <p className="card-text">{card?.description}</p>
                             <Button className="btn-sm" variant="primary" onClick={() => handleModalData(card)}>View</Button>
                             <MyVerticallyCenteredModal show={modalShow} onHide={() => setModalShow(false)} cardData = {particularData} />
-                            <Button className="btn btn-secondary ms-3 btn-sm">Modify</Button>
-                            <Button className="btn btn-danger ms-3 btn-sm float-end">Delete </Button>
+                            
+                            {/* Edit Note Modal start */}
+                            
+                            <Link to={'/edit/'+card.id} className="btn btn-secondary ms-3 btn-sm">Modify</Link>
+                            {/* <Modal show={ModifyModal} onHide={()=>setModifyModal(false)} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
+                                <Modal.Header closeButton>
+                                    <Modal.Title id="contained-modal-title-vcenter"></Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    <Form>
+                                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                            <Form.Label>Title</Form.Label>
+                                            <Form.Control type="text" name='title' value={data.title} onChange={handleInputChange} placeholder="Give your note a title" autoFocus />
+                                        </Form.Group>
+                                        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1" >
+                                            <Form.Label>Description</Form.Label>
+                                            <Form.Control name='description' value={data.description} onChange={handleInputChange} as="textarea" rows={3} />
+                                        </Form.Group>
+                                    </Form>
+                                </Modal.Body>
+                                <Modal.Footer>
+                                    <Button onClick={handleModify} type='submit' variant='primary'>Update</Button>
+                                </Modal.Footer>
+                            </Modal> */}
+                            <Button className="btn btn-danger ms-3 btn-sm float-end">Delete</Button>
+                            {/* Edit Note Modal end */}
                         </div>
                     </div>
                 </div>
