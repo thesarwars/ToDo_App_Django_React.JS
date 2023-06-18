@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Button from 'react-bootstrap/Button';
+// import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import Header from './Header';
 import { useParams } from 'react-router-dom';
@@ -10,6 +10,8 @@ function EditNote(){
         description: '',
     })
 
+    const {todo_id} = useParams()
+
     const handleChange =(event)=>{
         setEditNote({
             ...EditNote,
@@ -17,7 +19,7 @@ function EditNote(){
         })
     }
 
-    const handleSubmit = (todo_id) =>{
+    const handleSubmit = () =>{
         const _formData = new FormData();
         _formData.append('title', EditNote.title);
         _formData.append('description', EditNote.description);
@@ -33,6 +35,7 @@ function EditNote(){
                     console.log('Data Save Successfully')
                     // setModifyData(false)
                     // fetchData();
+                    window.location.href = 'http://127.0.0.1:8000/'
 
                 }
             })
@@ -40,7 +43,9 @@ function EditNote(){
             console.log(error)
         }
     }
-    const {todo_id} = useParams()
+
+
+    
     useEffect(() => {
         try{
             axios.get('http://127.0.0.1:8000/apiview/modify/'+todo_id)

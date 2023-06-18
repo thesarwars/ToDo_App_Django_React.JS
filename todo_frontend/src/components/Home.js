@@ -3,7 +3,7 @@ import Header from "./Header";
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import MyVerticallyCenteredModal from "./MyVerticallyCenteredModal";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 // import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -53,9 +53,21 @@ function Home(){
                     console.log('Data Save Successfully')
                     setCreateModal(false)
                     // fetchData();
+                    window.location.reload()
 
                 }
             })
+        }catch(error){
+            console.log(error)
+        }
+    }
+
+    // const {todo_id} = useParams()
+    const handleDeleteChange =(todo_id)=>{
+        try{
+            axios.delete(`http://127.0.0.1:8000/apiview/modify/${todo_id}`)
+            console.log('success')
+            window.location.reload()
         }catch(error){
             console.log(error)
         }
@@ -120,32 +132,8 @@ function Home(){
                             <p className="card-text">{card?.description}</p>
                             <Button className="btn-sm" variant="primary" onClick={() => handleModalData(card)}>View</Button>
                             <MyVerticallyCenteredModal show={modalShow} onHide={() => setModalShow(false)} cardData = {particularData} />
-                            
-                            {/* Edit Note Modal start */}
-                            
                             <Link to={'/edit/'+card.id} className="btn btn-secondary ms-3 btn-sm">Modify</Link>
-                            {/* <Modal show={ModifyModal} onHide={()=>setModifyModal(false)} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
-                                <Modal.Header closeButton>
-                                    <Modal.Title id="contained-modal-title-vcenter"></Modal.Title>
-                                </Modal.Header>
-                                <Modal.Body>
-                                    <Form>
-                                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                            <Form.Label>Title</Form.Label>
-                                            <Form.Control type="text" name='title' value={data.title} onChange={handleInputChange} placeholder="Give your note a title" autoFocus />
-                                        </Form.Group>
-                                        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1" >
-                                            <Form.Label>Description</Form.Label>
-                                            <Form.Control name='description' value={data.description} onChange={handleInputChange} as="textarea" rows={3} />
-                                        </Form.Group>
-                                    </Form>
-                                </Modal.Body>
-                                <Modal.Footer>
-                                    <Button onClick={handleModify} type='submit' variant='primary'>Update</Button>
-                                </Modal.Footer>
-                            </Modal> */}
-                            <Button className="btn btn-danger ms-3 btn-sm float-end">Delete</Button>
-                            {/* Edit Note Modal end */}
+                            <Button onClick={()=>handleDeleteChange(+card?.id)} className="btn btn-danger ms-3 btn-sm float-end">Delete</Button>
                         </div>
                     </div>
                 </div>

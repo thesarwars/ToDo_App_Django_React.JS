@@ -8,7 +8,7 @@ import EditNote from './components/EditNote';
 const App = createBrowserRouter([
   {
     path: '/',
-    element: <Main />,
+    element: <Home />,
   },
   {
     path: '/home',
