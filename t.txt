@@ -1,0 +1,10 @@
+1. created virtual env named tenv and activate it using command "source tenv/bin/activate"
+2. installed django, django rest framework and cors header using pip.
+3. created django project using named 'todopa'.
+4. created django app named 'todoapp'.
+5. configured settings, url.
+6. created model and migrate model.
+7. Made API for create, edit, and delete using rest_framework.
+8. Push the project to GitHub.
+
+That's it....Thank you for watching..

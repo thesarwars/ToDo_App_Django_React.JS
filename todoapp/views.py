@@ -6,7 +6,7 @@ from . models import CreateNote
 
 # Create your views here.
 def index(request):
-    return HttpResponse('Hello Tahasin')
+    return HttpResponse('Hello Pioneer Alpha')
 
 class CreateNoteView(generics.ListCreateAPIView):
     queryset = CreateNote.objects.all()
