@@ -7,6 +7,7 @@ import { Link, useParams } from "react-router-dom";
 // import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import CreateModal from "./CreateModal";
 // import CreateModal from "./CreateModal";
 
 function Home(){
@@ -18,10 +19,7 @@ function Home(){
         setParticularData(cardData) 
         setModalShow(true)
     }
-    const [CreateData, setCreateData] = useState({
-        title: '',
-        description: '',
-    });
+    const [isReload, setIsreload] = useState(false);
 
     // const [ModifyModal, setModifyModal] = useState(false)
 
@@ -30,44 +28,49 @@ function Home(){
     //     description: '',
     // })
 
-    const handleInputChange = (event) =>{
-        setCreateData({
-            ...CreateData,
-            [event.target.name]:event.target.value
-        })
-    }
+    // const handleInputChange = (event) =>{
+    //     setCreateData({
+    //         ...CreateData,
+    //         [event.target.name]:event.target.value
+    //     })
+    // }
 
-    const handleSubmit = () =>{
-        const _formData = new FormData();
-        _formData.append('title', CreateData.title);
-        _formData.append('description', CreateData.description);
+    // const handleSubmit = () =>{
+    //     const _formData = new FormData();
+    //     _formData.append('title', CreateData.title);
+    //     _formData.append('description', CreateData.description);
 
-        try{
-            axios.post('http://127.0.0.1:8000/apiview/', _formData,{
-                headers: {
-                    'content-type': 'multipart/form-data'
-                }
-            })
-            .then((response)=>{
-                if(response.status===200||response.status===201){
-                    console.log('Data Save Successfully')
-                    setCreateModal(false)
-                    // fetchData();
-                    window.location.reload()
+    //     try{
+    //         axios.post('http://127.0.0.1:8000/apiview/', _formData,{
+    //             headers: {
+    //                 'content-type': 'multipart/form-data'
+    //             }
+    //         })
+    //         .then((response)=>{
+    //             if(response.status===200||response.status===201){
+    //                 console.log('Data Save Successfully')
+    //                 setCreateModal(false)
+    //                 // fetchData();
+    //                 window.location.reload()
 
-                }
-            })
-        }catch(error){
-            console.log(error)
-        }
-    }
+    //             }
+    //         })
+    //     }catch(error){
+    //         console.log(error)
+    //     }
+    // }
 
     // const {todo_id} = useParams()
     const handleDeleteChange =(todo_id)=>{
+        setIsreload(false)
         try{
             axios.delete(`http://127.0.0.1:8000/apiview/modify/${todo_id}`)
-            console.log('success')
-            window.location.reload()
+            .then((response)=>{
+                if(response.status==204){
+                    setIsreload(true)
+                }
+            })
+            // window.location.reload()
         }catch(error){
             console.log(error)
         }
@@ -84,7 +87,7 @@ function Home(){
             // handle error
             console.log(error);
         })
-    },[])
+    },[isReload])
 
 
 
@@ -99,7 +102,7 @@ function Home(){
                     <button type="button" className="btn btn-primary d-grid gap-2 col-6 mx-auto">Create</button>
                 </div>
             </div>
-            <Modal show={createModal} onHide={()=>setCreateModal(false)} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
+            {/* <Modal show={createModal} onHide={()=>setCreateModal(false)} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter"></Modal.Title>
                 </Modal.Header>
@@ -118,7 +121,8 @@ function Home(){
                 <Modal.Footer>
                     <Button onClick={handleSubmit} type='submit' variant='primary'>Save</Button>
                 </Modal.Footer>
-            </Modal>
+            </Modal> */}
+            <CreateModal show={createModal} onHide={()=>setCreateModal(false)} reload={()=>setIsreload(true)} preventreload={()=>setIsreload(false)}/>
             </div>
             {/* <CreateModal show={createModal} onHide={() => setCreateModal(false)}/> */}
             {/* Note Create End */}
