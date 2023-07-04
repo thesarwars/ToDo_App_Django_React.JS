@@ -1,0 +1,6 @@
+1. Created app in react.
+2. Installed some packages i.e. router-dom, react-bootstrap, axios
+3. Created react components
+4. Connected Create, Edit, Delete API.
+
+That's it, thank you for watching...
